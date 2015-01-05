@@ -13,10 +13,10 @@ using Xunit;
 
 namespace System.Web.Http
 {
-    public class CreatedNegotiatedContentResultTest
+    public class CreatedResultTest
     {
         [Fact]
-        public async Task CreatedNegotiatedContentResult_SetsStatusCode()
+        public async Task CreatedResult_SetsStatusCode()
         {
             // Arrange
             var httpContext = new DefaultHttpContext();
@@ -25,10 +25,10 @@ namespace System.Web.Http
             var stream = new MemoryStream();
             httpContext.Response.Body = stream;
 
-            var uri = new Uri("http://contoso.com");
+            var uri = "http://contoso.com/";
 
             var context = new ActionContext(new RouteContext(httpContext), new ActionDescriptor());
-            var result = new CreatedNegotiatedContentResult<Product>(uri, new Product());
+            var result = new CreatedResult(uri, new Product());
 
             // Act
             await result.ExecuteResultAsync(context);
@@ -38,7 +38,7 @@ namespace System.Web.Http
         }
 
         [Fact]
-        public async Task CreatedNegotiatedContentResult_SetsLocation_Uri()
+        public async Task CreatedResult_SetsLocation_Uri()
         {
             // Arrange
             var httpContext = new DefaultHttpContext();
@@ -47,10 +47,10 @@ namespace System.Web.Http
             var stream = new MemoryStream();
             httpContext.Response.Body = stream;
 
-            var uri = new Uri("http://contoso.com");
+            var uri = "http://contoso.com/";
 
             var context = new ActionContext(new RouteContext(httpContext), new ActionDescriptor());
-            var result = new CreatedNegotiatedContentResult<Product>(uri, new Product());
+            var result = new CreatedResult(uri, new Product());
 
             // Act
             await result.ExecuteResultAsync(context);
@@ -63,7 +63,7 @@ namespace System.Web.Http
         [InlineData("http://contoso.com/Api/Products")]
         [InlineData("/Api/Products")]
         [InlineData("Products")]
-        public async Task CreatedNegotiatedContentResult_SetsLocation_String(string uri)
+        public async Task CreatedResult_SetsLocation_String(string uri)
         {
             // Arrange
             var httpContext = new DefaultHttpContext();
@@ -73,9 +73,7 @@ namespace System.Web.Http
             httpContext.Response.Body = stream;
 
             var context = new ActionContext(new RouteContext(httpContext), new ActionDescriptor());
-            var result = new CreatedNegotiatedContentResult<Product>(
-                new Uri(uri, UriKind.RelativeOrAbsolute),
-                new Product());
+            var result = new CreatedResult(uri, new Product());
 
             // Act
             await result.ExecuteResultAsync(context);

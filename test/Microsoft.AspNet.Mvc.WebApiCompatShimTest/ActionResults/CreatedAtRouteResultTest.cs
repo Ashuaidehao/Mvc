@@ -13,10 +13,10 @@ using Xunit;
 
 namespace System.Web.Http
 {
-    public class CreatedAtRouteNegotiatedContentResultTest
+    public class CreatedAtRouteResultTest
     {
         [Fact]
-        public async Task CreatedAtRouteNegotiatedContentResult_SetsStatusCode()
+        public async Task CreatedAtRouteResult_SetsStatusCode()
         {
             // Arrange
             var urlHelper = new Mock<IUrlHelper>(MockBehavior.Strict);
@@ -31,9 +31,9 @@ namespace System.Web.Http
             httpContext.Response.Body = stream;
 
             var context = new ActionContext(new RouteContext(httpContext), new ActionDescriptor());
-            var result = new CreatedAtRouteNegotiatedContentResult<Product>(
+            var result = new CreatedAtRouteResult(
                 "api_route",
-                new RouteValueDictionary(new { controller = "Products", id = 5 }),
+                new { controller = "Products", id = 5 },
                 new Product());
 
             // Act
@@ -44,7 +44,7 @@ namespace System.Web.Http
         }
 
         [Fact]
-        public async Task CreatedAtRouteNegotiatedContentResult_SetsLocation()
+        public async Task CreatedAtRouteResult_SetsLocation()
         {
             // Arrange
             var urlHelper = new Mock<IUrlHelper>(MockBehavior.Strict);
@@ -59,9 +59,9 @@ namespace System.Web.Http
             httpContext.Response.Body = stream;
 
             var context = new ActionContext(new RouteContext(httpContext), new ActionDescriptor());
-            var result = new CreatedAtRouteNegotiatedContentResult<Product>(
+            var result = new CreatedAtRouteResult(
                 "api_route",
-                new RouteValueDictionary(new { controller = "Products", id = 5 }),
+                new { controller = "Products", id = 5 },
                 new Product());
 
             // Act
@@ -72,7 +72,7 @@ namespace System.Web.Http
         }
 
         [Fact]
-        public async Task CreatedAtRouteNegotiatedContentResult_Fails()
+        public async Task CreatedAtRouteResult_Fails()
         {
             // Arrange
             var urlHelper = new Mock<IUrlHelper>(MockBehavior.Strict);
@@ -87,7 +87,7 @@ namespace System.Web.Http
             httpContext.Response.Body = stream;
 
             var context = new ActionContext(new RouteContext(httpContext), new ActionDescriptor());
-            var result = new CreatedAtRouteNegotiatedContentResult<Product>(
+            var result = new CreatedAtRouteResult(
                 "api_route",
                 new RouteValueDictionary(new { controller = "Products", id = 5 }),
                 new Product());
@@ -96,7 +96,7 @@ namespace System.Web.Http
             var ex = await Assert.ThrowsAsync<InvalidOperationException>(async () => await result.ExecuteResultAsync(context));
 
             // Assert
-            Assert.Equal("Failed to generate a URL using route 'api_route'.", ex.Message);
+            Assert.Equal("No route matches the supplied values.", ex.Message);
         }
 
         private IServiceProvider CreateServices(IUrlHelper urlHelper)
