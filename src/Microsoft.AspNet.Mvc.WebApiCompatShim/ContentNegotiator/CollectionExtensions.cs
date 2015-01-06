@@ -22,8 +22,8 @@ namespace System.Collections.Generic
         {
             Debug.Assert(array != null);
 
-            int originalLength = array.Length;
-            T[] newArray = new T[originalLength + 1];
+            var originalLength = array.Length;
+            var newArray = new T[originalLength + 1];
             array.CopyTo(newArray, 0);
             newArray[originalLength] = value;
             return newArray;
@@ -37,7 +37,7 @@ namespace System.Collections.Generic
         {
             Debug.Assert(values != null);
 
-            T[] array = values as T[];
+            var array = values as T[];
             if (array == null)
             {
                 array = values.ToArray();
@@ -53,13 +53,13 @@ namespace System.Collections.Generic
         {
             Debug.Assert(enumerable != null);
 
-            Collection<T> collection = enumerable as Collection<T>;
+            var collection = enumerable as Collection<T>;
             if (collection != null)
             {
                 return collection;
             }
             // Check for IList so that collection can wrap it instead of copying
-            IList<T> list = enumerable as IList<T>;
+            var list = enumerable as IList<T>;
             if (list == null)
             {
                 list = new List<T>(enumerable);
@@ -74,7 +74,7 @@ namespace System.Collections.Generic
         {
             Debug.Assert(enumerable != null);
 
-            IList<T> list = enumerable as IList<T>;
+            var list = enumerable as IList<T>;
             if (list != null)
             {
                 return list;
@@ -128,7 +128,7 @@ namespace System.Collections.Generic
                     return default(T);
 
                 case 1:
-                    T value = list[0];
+                    var value = list[0];
                     return value;
 
                 default:
@@ -150,9 +150,9 @@ namespace System.Collections.Generic
             Debug.Assert(errorAction != null);
 
             TMatch result = null;
-            for (int i = 0; i < list.Count; i++)
+            for (var i = 0; i < list.Count; i++)
             {
-                TMatch typedValue = list[i] as TMatch;
+                var typedValue = list[i] as TMatch;
                 if (typedValue != null)
                 {
                     if (result == null)
@@ -177,9 +177,9 @@ namespace System.Collections.Generic
         {
             Debug.Assert(collection != null);
 
-            T[] result = new T[collection.Count];
-            int count = 0;
-            foreach (T value in collection)
+            var result = new T[collection.Count];
+            var count = 0;
+            foreach (var value in collection)
             {
                 if (value != null)
                 {
@@ -193,7 +193,7 @@ namespace System.Collections.Generic
             }
             else
             {
-                T[] trimmedResult = new T[count];
+                var trimmedResult = new T[count];
                 Array.Copy(result, trimmedResult, count);
                 return trimmedResult;
             }
@@ -211,10 +211,10 @@ namespace System.Collections.Generic
             Debug.Assert(array != null);
             Debug.Assert(keySelector != null);
 
-            Dictionary<TKey, TValue> dictionary = new Dictionary<TKey, TValue>(array.Length, comparer);
-            for (int i = 0; i < array.Length; i++)
+            var dictionary = new Dictionary<TKey, TValue>(array.Length, comparer);
+            for (var i = 0; i < array.Length; i++)
             {
-                TValue value = array[i];
+                var value = array[i];
                 dictionary.Add(keySelector(value), value);
             }
             return dictionary;
@@ -232,7 +232,7 @@ namespace System.Collections.Generic
             Debug.Assert(list != null);
             Debug.Assert(keySelector != null);
 
-            TValue[] array = list as TValue[];
+            var array = list as TValue[];
             if (array != null)
             {
                 return ToDictionaryFast(array, keySelector, comparer);
@@ -252,18 +252,18 @@ namespace System.Collections.Generic
             Debug.Assert(enumerable != null);
             Debug.Assert(keySelector != null);
 
-            TValue[] array = enumerable as TValue[];
+            var array = enumerable as TValue[];
             if (array != null)
             {
                 return ToDictionaryFast(array, keySelector, comparer);
             }
-            IList<TValue> list = enumerable as IList<TValue>;
+            var list = enumerable as IList<TValue>;
             if (list != null)
             {
                 return ToDictionaryFastNoCheck(list, keySelector, comparer);
             }
-            Dictionary<TKey, TValue> dictionary = new Dictionary<TKey, TValue>(comparer);
-            foreach (TValue value in enumerable)
+            var dictionary = new Dictionary<TKey, TValue>(comparer);
+            foreach (var value in enumerable)
             {
                 dictionary.Add(keySelector(value), value);
             }
@@ -282,11 +282,11 @@ namespace System.Collections.Generic
             Debug.Assert(list != null);
             Debug.Assert(keySelector != null);
 
-            int listCount = list.Count;
-            Dictionary<TKey, TValue> dictionary = new Dictionary<TKey, TValue>(listCount, comparer);
-            for (int i = 0; i < listCount; i++)
+            var listCount = list.Count;
+            var dictionary = new Dictionary<TKey, TValue>(listCount, comparer);
+            for (var i = 0; i < listCount; i++)
             {
-                TValue value = list[i];
+                var value = list[i];
                 dictionary.Add(keySelector(value), value);
             }
             return dictionary;

@@ -92,11 +92,11 @@ namespace System.Net.Http.Formatting
             var parameterCount1 = parameters1.Count;
             var parameters2 = mediaType2.Parameters.AsCollection();
             var parameterCount2 = parameters2.Count;
-            for (int i = 0; i < parameterCount1; i++)
+            for (var i = 0; i < parameterCount1; i++)
             {
                 var parameter1 = parameters1[i];
                 var found = false;
-                for (int j = 0; j < parameterCount2; j++)
+                for (var j = 0; j < parameterCount2; j++)
                 {
                     var parameter2 = parameters2[j];
                     if (parameter1.Equals(parameter2))
