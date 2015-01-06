@@ -10,7 +10,7 @@ namespace Microsoft.AspNet.Mvc.FunctionalTests
     {
         public const string RequestTraceIdQueryKey = "RequestTraceId";
 
-        public static ScopeNodeDto FindScopeWithName(this IEnumerable<ActivityContextDto> activities,
+        public static ScopeNodeDto FindScopeByName(this IEnumerable<ActivityContextDto> activities,
                                                                     string scopeName)
         {
             ScopeNodeDto node = null;
@@ -57,6 +57,15 @@ namespace Microsoft.AspNet.Mvc.FunctionalTests
         {
             return activities.FilterByRequestTraceId(requestTraceId)
                              .GetLogsUnderScope(scopeName);
+        }
+        
+        public static IEnumerable<ActivityContextDto> FilterByRequestTraceId(this IEnumerable<ActivityContextDto> activities,
+                                                                                string requestTraceId)
+        {
+            return activities.Where(activity => activity.RequestInfo != null
+                        && string.Equals(GetQueryValue(activity.RequestInfo.Query, RequestTraceIdQueryKey),
+                                        requestTraceId,
+                                        StringComparison.OrdinalIgnoreCase));
         }
 
         private static IEnumerable<LogInfoDto> GetLogsUnderScope(this IEnumerable<ActivityContextDto> activities,
@@ -134,14 +143,6 @@ namespace Microsoft.AspNet.Mvc.FunctionalTests
             }
         }
 
-        private static IEnumerable<ActivityContextDto> FilterByRequestTraceId(this IEnumerable<ActivityContextDto> activities,
-                                                                                string requestTraceId)
-        {
-            return activities.Where(activity => activity.RequestInfo != null
-                        && string.Equals(GetQueryValue(activity.RequestInfo.Query, RequestTraceIdQueryKey),
-                                        requestTraceId,
-                                        StringComparison.OrdinalIgnoreCase));
-        }
 
         private static ScopeNodeDto GetScope(ScopeNodeDto root, string scopeName)
         {

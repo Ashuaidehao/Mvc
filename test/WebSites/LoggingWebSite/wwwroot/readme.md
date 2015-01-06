@@ -1,1 +1,1 @@
-﻿For testing logging
+﻿Filed added as Git does not allow to add empty directories into the repo
